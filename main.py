@@ -37,6 +37,10 @@ def main(page: ft.Page):
 
     # Tutti i TextField per le info necessarie per aggiungere un nuovo strumento (tipo, marca, anno, contatore posti)
     # TODO
+    input_tipo = ft.TextField( label = "Tipo")
+    input_marca = ft.TextField(label = "Marca")
+    input_annoAcquisto = ft.TextField(label="Anno acquisto")
+    TextValore=ft.Text(value=0)
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
@@ -56,6 +60,18 @@ def main(page: ft.Page):
 
     # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
     # TODO
+    def inserisci_strumento(e):
+        deposito.aggiungi_strumento(input_tipo.value,input_marca.value,int(input_annoAcquisto.value),float(TextValore.value))
+        aggiorna_lista_strumenti()
+        input_tipo.value = ""
+        input_marca.value = ""
+        input_annoAcquisto.value = ""
+        TextValore.value = ""
+    def handle_plus(e):
+        TextValore.value+=10
+    def handle_minus(e):
+        TextValore.value-=10
+
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
@@ -63,6 +79,9 @@ def main(page: ft.Page):
 
     # Pulsanti per la gestione dell'inserimento di un nuovo strumento
     # TODO
+    pulsante_inserisci_strumento = ft.Button("Aggiungi strumento", on_click=inserisci_strumento)
+    pulsante_plus=ft.Button("+", on_click=handle_plus)
+    pulsante_minus=ft.Button("-", on_click=handle_minus)
 
     # --- LAYOUT ---
     page.add(
@@ -78,9 +97,14 @@ def main(page: ft.Page):
         ft.Row(spacing=200,
                controls=[input_responsabile, pulsante_conferma_responsabile],
                alignment=ft.MainAxisAlignment.CENTER),
+        ft.Divider(),
 
         # Sezione 3
         # TODO
+        ft.Text("Aggiungi nuovo strumento", size=20),
+        ft.Row(spacing=25,
+               controls=[input_tipo,input_marca,input_annoAcquisto,pulsante_minus,TextValore,pulsante_plus]),
+        pulsante_inserisci_strumento,
 
         # Sezione 4
         ft.Divider(),
